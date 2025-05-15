@@ -1,0 +1,16 @@
+.info-icon {
+  margin-left: 0.4rem;
+  color: var(--accent-color);
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.tooltip-box {
+  background-color: var(--tooltip-bg);
+  color: var(--tooltip-text);
+  font-size: 0.85rem !important;
+  border-radius: 6px !important;
+  padding: 0.6rem !important;
+  max-width: 250px;
+  text-align: center;
+}
