@@ -1,0 +1,71 @@
+.menu-bar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: var(--bg-color);
+  z-index: 1000;
+  padding: 0.8rem 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.3s ease;
+}
+
+.menu-bar ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+.menu-bar li {
+  display: flex;
+}
+
+.menu-button {
+  font-family: 'Fira Code', 'JetBrains Mono', monospace;
+  background-color: transparent;
+  color: var(--text-color);
+  border: 2px solid var(--accent-color);
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.menu-button::before {
+  content: "";
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  width: 300%;
+  height: 300%;
+  background: radial-gradient(circle, var(--accent-color) 5%, transparent 70%);
+  opacity: 0;
+  transition: all 0.4s ease;
+  z-index: 0;
+}
+
+.menu-button:hover::before {
+  opacity: 0.2;
+  transform: translateX(30%) translateY(20%);
+}
+
+.menu-button:hover {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 12px var(--accent-color);
+  color: var(--accent-color);
+}
+
+.menu-button:focus {
+  outline: none;
+  box-shadow: 0 0 10px 2px var(--accent-color);
+}
+
+.menu-button:active {
+  box-shadow: 0 0 14px 4px var(--accent-color);
+  border-color: var(--accent-color);
+}
