@@ -22,7 +22,7 @@
   background-color: var(--secondary-bg);
   padding: 1.5rem;
   border-radius: 12px;
-  box-shadow: 0 0 10px rgba(162, 89, 255, 0.1);
+      box-shadow: 0 0 10px rgb(131 35 253 / 51%);
   transition: box-shadow 0.3s ease;
   color: var(--text-color);
 }
