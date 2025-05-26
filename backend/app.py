@@ -16,9 +16,11 @@ from pymongo import MongoClient
 app = Flask(__name__)
 CORS(app)
 
-MONGO_URI = "mongodb://localhost:27017"
+# Use Mongo URI from environment variable (set on Render)
+MONGO_URI = os.environ["MONGO_URI"]
 DB_NAME = "pythia"
 MODEL_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "models")
+
 client = MongoClient(MONGO_URI)
 db = client[DB_NAME]
 
@@ -80,26 +82,7 @@ def upload():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# ------------------- NEW ROUTE FOR FRONTEND OPTIONS ------------------- #
-@app.route("/api/dataset/options", methods=["GET"])
-def get_unique_options():
-    try:
-        dataset_path = os.path.join(os.path.dirname(__file__), "..", "data", "marketing_campaign_dataset.csv")
-        df = pd.read_csv(dataset_path)
-
-        segments = df['Customer_Segment'].dropna().unique().tolist()
-        channels = df['Channel_Used'].dropna().unique().tolist()
-        campaign_types = df['Campaign_Type'].dropna().unique().tolist()
-
-        return jsonify({
-            "customer_segments": segments,
-            "channels": channels,
-            "campaign_types": campaign_types
-        })
-
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
 # ------------------- MAIN ------------------- #
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(debug=False, host="0.0.0.0", port=port)
