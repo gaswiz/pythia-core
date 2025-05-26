@@ -1,0 +1,11 @@
+{
+    "dataset": "ecommerce_shop",
+    "model": "LinearRegression",
+    "r2_score": 0.13200030526012085,
+    "mae": 487.148676598487,
+    "features_used": [
+        "CTR",
+        "CPC"
+    ],
+    "timestamp": "2025-05-23T12:37:44.044961"
+}

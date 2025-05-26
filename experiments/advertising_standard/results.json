@@ -1,0 +1,11 @@
+{
+    "dataset": "advertising_standard",
+    "model": "LinearRegression",
+    "r2_score": 0.4338821203375449,
+    "mae": 0.770570853341516,
+    "features_used": [
+        "click_through_rate",
+        "cost_per_click"
+    ],
+    "timestamp": "2025-05-23T12:49:27.249157"
+}

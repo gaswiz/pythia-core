@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { cn } from "@/lib/utils" // Make sure path works (or use relative: ../../lib/utils)
+import { cn } from "@/lib/utils"
 
 interface Props {
   images: string[]
