@@ -1,0 +1,42 @@
+[
+    {
+        "dataset": "kaggle_campaign",
+        "error": "Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+        "dataset": "advertising_standard",
+        "model": "LinearRegression",
+        "r2_score": 0.4338821203375449,
+        "mae": 0.770570853341516,
+        "accuracy": null,
+        "features": [
+            "click_through_rate",
+            "cost_per_click"
+        ],
+        "timestamp": "2025-05-23T12:49:27.249157"
+    },
+    {
+        "dataset": "advertising_classified",
+        "model": "LogisticRegression",
+        "r2_score": null,
+        "mae": null,
+        "accuracy": 0.995,
+        "features": [
+            "click_through_rate",
+            "cost_per_click"
+        ],
+        "timestamp": "2025-05-23T12:36:28.577628"
+    },
+    {
+        "dataset": "ecommerce_shop",
+        "model": "LinearRegression",
+        "r2_score": 0.13200030526012085,
+        "mae": 487.148676598487,
+        "accuracy": null,
+        "features": [
+            "CTR",
+            "CPC"
+        ],
+        "timestamp": "2025-05-23T12:37:44.044961"
+    }
+]

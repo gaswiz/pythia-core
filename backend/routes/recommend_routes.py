@@ -13,3 +13,5 @@ def recommend():
 
     result = generate_recommendation(data)
     return jsonify(result)
+
+

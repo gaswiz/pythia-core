@@ -80,6 +80,26 @@ def upload():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+# ------------------- NEW ROUTE FOR FRONTEND OPTIONS ------------------- #
+@app.route("/api/dataset/options", methods=["GET"])
+def get_unique_options():
+    try:
+        dataset_path = os.path.join(os.path.dirname(__file__), "..", "data", "marketing_campaign_dataset.csv")
+        df = pd.read_csv(dataset_path)
+
+        segments = df['Customer_Segment'].dropna().unique().tolist()
+        channels = df['Channel_Used'].dropna().unique().tolist()
+        campaign_types = df['Campaign_Type'].dropna().unique().tolist()
+
+        return jsonify({
+            "customer_segments": segments,
+            "channels": channels,
+            "campaign_types": campaign_types
+        })
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 # ------------------- MAIN ------------------- #
 if __name__ == '__main__':
     app.run(debug=True)

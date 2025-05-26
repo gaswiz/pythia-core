@@ -9,4 +9,19 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  // Add support for CSV files
+  assetsInclude: ['**/*.csv'],
+  // Setup proxy for backend API calls
+  server: {
+    proxy: {
+      '/predict': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+      },
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+      }
+    }
+  }
 });
