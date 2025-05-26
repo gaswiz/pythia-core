@@ -1,0 +1,76 @@
+{
+	"info": {
+		"_postman_id": "cf38467f-162e-4eef-b1b3-8be7160f91e1",
+		"name": "P.Y.T.H.I.A. - Local API",
+		"description": "This collection provides endpoints for interacting with the local API of the **P.Y.T.H.I.A. predictive analytics platform**. It supports model inference, campaign recommendations, and CSV data ingestion, enabling users to simulate and evaluate marketing campaign performance based on structured inputs.\n\n---\n\n## Included Requests\n\n### POST `/predict`\n\n**Predict ROI and Clicks**  \n  \nGenerates predictions for **Return on Investment (ROI)** and expected **clicks** using a trained regression model.\n\n**Required JSON Body:**\n\n``` json\n{\n  \"Acquisition_Cost\": 4500,\n  \"Impressions\": 120000,\n  \"Clicks\": 600,\n  \"Conversion_Rate\": 0.12,\n  \"Duration\": 30\n}\n\n ```\n\n**Expected Response:**\n\n- `200 OK` – Returns predicted ROI and click count.\n    \n- `400 Bad Request` – Triggered when one or more required fields are missing or malformed.\n    \n\n**Usage Notes:**  \n  \nThis endpoint is intended for single-campaign prediction. Inputs should be based on real or simulated campaign metadata. The model must be properly trained and loaded before usage.\n\n---\n\n### GET `/recommend`\n\n**Get Budget-Based Campaign Recommendation**  \n  \nProvides an optimal configuration for a marketing campaign given a specified budget.\n\n**Query Parameters:**\n\n- `budget` (required): Numeric value representing the available campaign budget.\n    \n\n**Example:**\n\n```\nGET http://127.0.0.1:5000/recommend?budget=5000\n\n ```\n\n**Expected Response:**\n\n- `200 OK` – Returns a recommended configuration (e.g., ideal duration, click expectations).\n    \n- `400 Bad Request` – Returned when the `budget` parameter is missing or invalid.\n    \n\n**Usage Notes:**  \n  \nUse this endpoint to simulate outcomes based on different budget inputs. It is useful during the planning phase to explore data-driven strategies.\n\n---\n\n### POST `/upload`\n\n**Upload Marketing Dataset**  \n  \nAllows users to upload a CSV file containing historical campaign data to the backend. This can be used for model training, validation, or analysis.\n\n**Required Form-Data Field:**\n\n- `file`: A valid CSV file (e.g., `marketing_campaign_dataset.csv`) with appropriate feature columns.\n    \n\n**Expected Response:**\n\n- `200 OK` – File successfully uploaded and parsed.\n    \n- `400 Bad Request` – File is missing, incorrectly formatted, or invalid.\n    \n\n**Usage Notes:**  \n  \nThis endpoint supports dataset ingestion for offline processing. It must be used with well-formatted CSVs that align with the platform's expected schema (features such as acquisition cost, impressions, duration, clicks, etc.).\n\n---\n\n## Environment Configuration\n\n- Ensure `BASE_URL` is set to the running API instance (e.g., `http://127.0.0.1:5000`).\n    \n- If using an ngrok tunnel or deployed version, update the `BASE_URL` accordingly in Postman.\n    \n- No authorization headers are required for these endpoints in their current local state.\n    \n\n---\n\n## FAQ\n\n**Q: Why am I getting a 400 Bad Request on** **`/predict`****?**  \n  \nA: Ensure all required fields are present in the JSON body. Field names are case-sensitive. Double-check that numerical values are not passed as strings.\n\n**Q: What format should my CSV file follow for** **`/upload`****?**  \n  \nA: The CSV should include columns like `Acquisition_Cost`, `Impressions`, `Clicks`, `Conversion_Rate`, and `Duration`. The file must be properly formatted and uploaded as `form-data`, not `raw` or `x-www-form-urlencoded`.\n\n**Q: Can I use this API with live marketing data from my CRM?**  \n  \nA: While the current version is for local use and academic purposes, it can be extended to accept structured real-time data through an integration layer or data pipeline.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "40917207"
+	},
+	"item": [
+		{
+			"name": "Predict ROI & Clicks",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"Acquisition_Cost\": 4500,\n  \"Impressions\": 120000,\n  \"Clicks\": 600,\n  \"Conversion_Rate\": 0.12,\n  \"Duration\": 30\n}"
+				},
+				"url": "http://127.0.0.1:5000/predict"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Recommendation",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/recommend?budget=5000",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"recommend"
+					],
+					"query": [
+						{
+							"key": "budget",
+							"value": "5000"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload CSV Data",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/path/to/marketing_campaign_dataset.csv"
+						}
+					]
+				},
+				"url": "http://127.0.0.1:5000/upload"
+			},
+			"response": []
+		}
+	]
+}
