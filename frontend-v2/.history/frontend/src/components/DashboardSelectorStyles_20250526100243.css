@@ -1,0 +1,149 @@
+/* DashboardSelectorStyles.css */
+
+.dashboard-section {
+  background-color: var(--section-bg);
+  color: var(--text-color);
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  padding: 2rem;
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease-in-out;
+}
+
+.dashboard-heading {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  letter-spacing: 0.03em;
+}
+
+.dashboard-options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.dashboard-option {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border-color);
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.25s ease, background-color 0.25s ease;
+}
+
+.dashboard-option:hover {
+  background-color: var(--hover-bg);
+  transform: scale(1.04);
+}
+
+.dashboard-option.active {
+  background-color: var(--primary-color);
+  color: #fff;
+  border-color: var(--primary-color);
+}
+
+.dashboard-slider {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.dashboard-slider-label {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-slider-value {
+  text-align: center;
+  margin-top: 0.5rem;
+  font-weight: 600;
+  font-size: 1.125rem;
+}
+
+.dashboard-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+.dashboard-button {
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border: none;
+}
+
+.dashboard-button.primary {
+  background-color: var(--primary-color);
+  color: #fff;
+}
+
+.dashboard-button.primary:hover {
+  background-color: var(--primary-color-dark);
+}
+
+.dashboard-button.secondary {
+  background-color: #ccc;
+  color: #333;
+}
+
+.dashboard-button.secondary:hover {
+  background-color: #b3b3b3;
+}
+
+.dashboard-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 0;
+  color: var(--text-color);
+}
+
+.dashboard-results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.dashboard-result-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease;
+}
+
+.dashboard-result-card:hover {
+  transform: translateY(-4px);
+}
+
+.dashboard-result-label {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.dashboard-result-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+/* Final touch: spinner animation for loading component */
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

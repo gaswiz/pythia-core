@@ -1,0 +1,53 @@
+/* DashboardSelectorStyles.css */
+
+.dashboard-section {
+  @apply bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 rounded-2xl shadow-lg p-6 transition-all duration-300 ease-in-out border dark:border-gray-700;
+}
+
+.dashboard-heading {
+  @apply text-xl md:text-2xl font-semibold mb-4 tracking-wide;
+}
+
+.dashboard-card-option {
+  @apply text-sm md:text-base px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 font-medium text-center cursor-pointer select-none transition-all duration-200 ease-in-out;
+}
+
+.dashboard-card-option:hover {
+  @apply bg-gray-100 dark:bg-gray-700 shadow-md;
+}
+
+.dashboard-card-option.active {
+  @apply bg-blue-600 text-white dark:bg-blue-500;
+}
+
+.dashboard-slider-label {
+  @apply text-base font-medium mb-2;
+}
+
+.dashboard-slider-value {
+  @apply text-center text-lg mt-2 font-semibold;
+}
+
+.dashboard-button {
+  @apply inline-block px-6 py-2 rounded-xl font-medium transition duration-200 ease-in-out;
+}
+
+.dashboard-button-primary {
+  @apply bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600;
+}
+
+.dashboard-button-secondary {
+  @apply bg-gray-400 text-white hover:bg-gray-500;
+}
+
+.dashboard-loading {
+  @apply flex flex-col items-center justify-center py-10 text-gray-600 dark:text-gray-300;
+}
+
+.dashboard-results-card {
+  @apply bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 rounded-2xl shadow-md flex justify-between items-center;
+}
+
+.dashboard-results-value {
+  @apply text-3xl font-bold;
+}

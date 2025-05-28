@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+frontend/node_modules/.vite/
+=======
 # Logs
 logs
 *.log
@@ -22,3 +25,4 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+>>>>>>> 0454f53b (Add Google Looker export grid section and images)

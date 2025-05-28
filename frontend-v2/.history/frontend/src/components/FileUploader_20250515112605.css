@@ -1,0 +1,51 @@
+.upload-container {
+  padding: 4rem 2rem;
+  background-color: #ffffff;
+  color: #111111;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.drop-zone {
+  border: 2px dashed #a259ff66;
+  background-color: #f4f4f4;
+  color: #111111;
+  border-radius: 16px;
+  padding: 2.5rem;
+  text-align: center;
+  width: 100%;
+  max-width: 500px;
+  transition: border-color 0.3s ease;
+}
+
+.drop-zone p {
+  margin-top: 0.8rem;
+  font-size: 1rem;
+}
+
+.upload-icon {
+  color: #a259ff;
+  font-size: 2.5rem;
+}
+
+.upload-container.active .drop-zone {
+  border-color: #a259ff;
+  box-shadow: 0 0 15px #a259ff88;
+}
+
+.upload-feedback {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: bold;
+}
+
+.upload-feedback.success {
+  color: #2e8b57;
+}
+
+.upload-feedback.error {
+  color: #d9534f;
+}

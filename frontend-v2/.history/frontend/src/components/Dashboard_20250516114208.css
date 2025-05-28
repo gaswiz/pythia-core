@@ -1,0 +1,76 @@
+.dashboard {
+  padding: 4rem 2rem;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  text-align: center;
+}
+
+.dashboard h2 {
+  font-size: 2rem;
+  margin-bottom: 2.5rem;
+  color: var(--accent-color);
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.metric-card {
+  background-color: var(--secondary-bg);
+  padding: 1.5rem;
+  border-radius: 12px;
+      box-shadow: 0 0 10px rgb(131 35 253 / 51%);
+  transition: box-shadow 0.3s ease;
+  color: var(--text-color);
+}
+
+.metric-label {
+  font-size: 0.9rem;
+  color: var(--text-color);
+  opacity: 0.7;
+}
+
+.metric-value {
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-top: 0.5rem;
+  display: block;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  border-collapse: collapse;
+  background-color: var(--table-bg);
+  border-radius: 8px;
+  overflow: hidden;
+  color: var(--text-color);
+}
+
+thead {
+  background-color: var(--secondary-bg);
+}
+
+th, td {
+  padding: 1rem;
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--text-color);
+}
+
+tbody tr:hover {
+  background-color: var(--secondary-bg);
+  opacity: 0.9;
+}
+
+th {
+  color: var(--accent-color);
+}
