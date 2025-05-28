@@ -1,13 +1,15 @@
-/*
-  File: /src/components/ui/hero-section-demo-1.tsx
-  Description: Hero updated with ML-focused slogan, real links, and modal image
-*/
-
 "use client";
 
 import { motion } from "framer-motion";
 
 export default function HeroSectionOne() {
+  const scrollToSimulation = () => {
+    const element = document.getElementById("campaign-simulation-form");
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="relative mx-auto my-10 flex max-w-7xl flex-col items-center justify-center">
       <Navbar />
@@ -48,14 +50,12 @@ export default function HeroSectionOne() {
           transition={{ duration: 0.3, delay: 1 }}
           className="relative z-10 mt-8 flex flex-wrap items-center justify-center gap-4"
         >
-          <a
-            href="https://github.com/gaswiz/pythia-core"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            onClick={scrollToSimulation}
             className="w-60 transform rounded-lg bg-purple-600 px-6 py-2 font-medium text-white text-center transition-all duration-300 hover:-translate-y-0.5 hover:bg-purple-700"
           >
             Try the Simulator
-          </a>
+          </button>
           <a
             href="https://github.com/gaswiz/pythia-core/blob/main/README.md"
             target="_blank"
