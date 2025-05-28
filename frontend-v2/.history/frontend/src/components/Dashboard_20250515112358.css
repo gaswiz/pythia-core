@@ -1,0 +1,68 @@
+.dashboard {
+  padding: 4rem 2rem;
+  background-color: #ffffff;
+  color: #111111;
+  text-align: center;
+}
+
+.metric-card {
+  background-color: #f4f4f4;
+  color: #111111;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+}
+
+.table-container table {
+  background-color: #fafafa;
+  color: #111;
+}
+
+thead {
+  background-color: #eee;
+}
+
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+
+.metric-label {
+  font-size: 0.9rem;
+  color: #999;
+}
+
+.metric-value {
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-top: 0.5rem;
+  display: block;
+}
+
+
+table {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  border-collapse: collapse;
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+
+th, td {
+  padding: 1rem;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+tbody tr:hover {
+  background-color: #282828;
+}
+
+th {
+  color: #a259ff;
+}
