@@ -78,7 +78,7 @@ const PredictionTool = () => {
 
       {result && (
         <motion.div className="prediction-summary" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-          <h3>📊 Predicted Performance</h3>
+          <h3>Predicted Performance</h3>
           <div className="summary-grid">
             <div className="metric-card">
               <p className="metric-label">Estimated CTR</p>

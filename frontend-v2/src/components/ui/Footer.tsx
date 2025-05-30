@@ -58,7 +58,7 @@ export default function Footer() {
           <ul className="mt-4 space-y-2 text-sm text-gray-400">
             <li className="flex items-center space-x-2">
               <IconMail className="w-4 h-4 text-cyan-400" />
-              <span>konstantinos@pandectes.io</span>
+              <span>konstantinospan@gmail.com</span>
             </li>
             <li className="flex items-center space-x-2">
               <IconBrandTwitter className="w-4 h-4 text-cyan-400" />
