@@ -1,0 +1,50 @@
+/*
+  File: /src/index.css
+  Description: Tailwind base with dark theme default background
+*/
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+html, body {
+  background-color: #000;
+  color: white;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+
+img {
+  object-fit: contain;
+  width: 64px;
+  height: 64px;
+  border-radius: 0.75rem;
+  transition: transform 0.2s ease;
+}
+
+img:hover {
+  transform: scale(1.1);
+}
+
+input, button, select, textarea {
+  color: black;
+  background-color: white;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+
+.MuiChartsAxis-tickLabel,
+.MuiChartsAxis-label,
+.MuiChartsLegend-series,
+.MuiChartsTooltip-root {
+  fill: white !important;
+  color: white !important;
+}
+
+.MuiChartsAxis-line,
+.MuiChartsAxis-tick {
+  stroke: white !important;
+}

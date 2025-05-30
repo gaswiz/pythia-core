@@ -1,0 +1,134 @@
+import React, { useState } from 'react';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer
+} from 'recharts';
+
+export default function Dashboard() {
+  const [company, setCompany] = useState('');
+  const [budget, setBudget] = useState('');
+  const [platform, setPlatform] = useState('');
+  const [industry, setIndustry] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    setTimeout(() => {
+      setSubmitting(false);
+      setSubmitted(true);
+    }, 1000);
+  };
+
+  const generateChartData = () => {
+    const baseImpressions = budget < 100 ? 1000 : budget > 500 ? 5000 : 3000;
+    const baseCTR = budget < 100 ? 1.1 : budget > 500 ? 2.5 : 1.8;
+    return [
+      { name: 'Week 1', impressions: baseImpressions, ctr: baseCTR },
+      { name: 'Week 2', impressions: baseImpressions + 500, ctr: baseCTR + 0.2 },
+      { name: 'Week 3', impressions: baseImpressions + 800, ctr: baseCTR + 0.3 },
+      { name: 'Week 4', impressions: baseImpressions + 1000, ctr: baseCTR + 0.4 },
+    ];
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 p-8 font-sans">
+      <div className="max-w-2xl mx-auto bg-white p-6 rounded-2xl shadow-lg">
+        <div className="mb-6 text-center">
+          <h2 className="text-3xl font-extrabold text-gray-900">P.Y.T.H.I.A. Simulator</h2>
+          <p className="text-gray-600 mt-2">Predict your campaign outcome before you launch it.</p>
+        </div>
+        <form className="space-y-4" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Company Name"
+            value={company}
+            onChange={(e) => setCompany(e.target.value)}
+            className="w-full p-3 border rounded-xl shadow-sm"
+          />
+          <input
+            type="number"
+            placeholder="Advertising Budget ($)"
+            value={budget}
+            onChange={(e) => setBudget(e.target.value)}
+            className="w-full p-3 border rounded-xl shadow-sm"
+          />
+          <select
+            className="w-full p-3 border rounded-xl shadow-sm"
+            value={industry}
+            onChange={(e) => setIndustry(e.target.value)}
+          >
+            <option value="">Select Industry</option>
+            <option value="ecommerce">E-commerce</option>
+            <option value="travel">Travel</option>
+            <option value="health">Health & Fitness</option>
+          </select>
+          <div className="flex justify-around">
+            {['Meta', 'Google'].map((p) => (
+              <label key={p} className={`cursor-pointer transition-transform duration-200 transform ${platform === p ? 'scale-110 border-blue-500 border-2' : ''} rounded-xl p-2 shadow-md`}>
+                <input
+                  type="radio"
+                  value={p}
+                  checked={platform === p}
+                  onChange={(e) => setPlatform(e.target.value)}
+                  className="hidden"
+                />
+                <img src={`/${p.toLowerCase()}.png`} alt={p} className="w-16 h-16 object-contain" />
+              </label>
+            ))}
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition disabled:opacity-50"
+            disabled={!company || !budget || !platform || !industry}
+          >
+            Run Prediction
+          </button>
+        </form>
+
+        {submitting && (
+          <div className="mt-4 text-center">
+            <div className="w-full bg-gray-200 rounded-full h-2.5 mb-4">
+              <div className="bg-blue-600 h-2.5 rounded-full animate-pulse" style={{ width: '80%' }}></div>
+            </div>
+            <p className="text-sm text-gray-500">Calculating prediction...</p>
+          </div>
+        )}
+
+        {submitted && !submitting && (
+          <div className="mt-8">
+            <h2 className="text-xl font-semibold mb-2">Prediction Results</h2>
+            <div className="grid grid-cols-3 gap-4 text-center">
+              <div className="p-4 bg-blue-50 rounded-xl shadow">Impressions: {generateChartData()[3].impressions}</div>
+              <div className="p-4 bg-green-50 rounded-xl shadow">CTR: {generateChartData()[3].ctr.toFixed(1)}%</div>
+              <div className="p-4 bg-yellow-50 rounded-xl shadow">Conversions: {(generateChartData()[3].ctr * 10).toFixed(0)}</div>
+            </div>
+
+            <div className="mt-6 h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={generateChartData()}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Line type="monotone" dataKey="impressions" stroke="#8884d8" />
+                  <Line type="monotone" dataKey="ctr" stroke="#82ca9d" />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        )}
+
+        <footer className="text-center text-xs text-gray-400 mt-10">
+          Part of Konstantinos' Final Year Project — University of East London, 2025
+        </footer>
+      </div>
+    </div>
+  );
+}

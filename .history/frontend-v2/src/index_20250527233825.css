@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f9fafb;
+}
+
+img {
+  object-fit: contain;
+  width: 64px;
+  height: 64px;
+  border-radius: 0.75rem;
+  transition: transform 0.2s ease;
+}
+
+img:hover {
+  transform: scale(1.1);
+}

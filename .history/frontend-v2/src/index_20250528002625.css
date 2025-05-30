@@ -1,0 +1,33 @@
+/*
+  File: /src/index.css
+  Description: Tailwind base with dark theme default background
+*/
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #0d0d0d;
+  color: white;
+  font-family: 'Inter', sans-serif;
+}
+
+img {
+  object-fit: contain;
+  width: 64px;
+  height: 64px;
+  border-radius: 0.75rem;
+  transition: transform 0.2s ease;
+}
+
+img:hover {
+  transform: scale(1.1);
+}
+
+input, button, select, textarea {
+  color: black;
+  background-color: white;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
