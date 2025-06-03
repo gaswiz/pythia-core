@@ -1,4 +1,4 @@
-# P.Y.T.H.I.A. Frontend V2 (React + Vite)
+# Frontend V2 (React + Vite)
 
 This document provides a full overview of the `frontend-v2` folder of the P.Y.T.H.I.A. project. This version replaces the earlier `frontend/` implementation and is built using **React** with **Vite** as the bundler and development server. It is intended to be clean, modular, and easy to integrate with the backend system.
 
