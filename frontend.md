@@ -1,98 +1,168 @@
-# Frontend Overview — P.Y.T.H.I.A.
+# P.Y.T.H.I.A. Frontend V2 (React + Vite)
 
-This document describes the role and implementation of the frontend interface in the P.Y.T.H.I.A. system. While the core logic of the platform resides in the backend, the frontend exists to offer a lightweight UI for testing and demonstration purposes.
-
----
-
-## Purpose of the Frontend
-
-The frontend does not represent a complete production interface. It serves as a **test and visual demonstration layer** to:
-- Allow file uploads for campaign datasets
-- Trigger model predictions via a form
-- Visualise outputs from the backend (e.g., ROI category, clicks, SHAP explanation)
-- Test response latency and behavior of API endpoints
-
-Currently, the interface is partially implemented, incomplete in some areas, and does **not** yet reflect the advanced dashboard logic described in the roadmap.
+This document provides a full overview of the `frontend-v2` folder of the P.Y.T.H.I.A. project. This version replaces the earlier `frontend/` implementation and is built using **React** with **Vite** as the bundler and development server. It is intended to be clean, modular, and easy to integrate with the backend system.
 
 ---
 
-## Key Technologies
+## Overview
 
-- **React**: Core component system (no state manager used)
-- **Vite**: Development server and bundler
-- **CSS (via modules)**: Basic styling and dark mode
-- **Axios or fetch**: To call Flask backend endpoints
+The frontend is a modern React application structured to interact with the P.Y.T.H.I.A. backend, which provides predictions for campaign performance using machine learning. It fetches results from the backend and visualizes them in a user-friendly interface.
 
----
-
-## Current Components and Functionality
-
-| Component               | Description                                                                 |
-|------------------------|-----------------------------------------------------------------------------|
-| `App.jsx`              | Main entry point — mounts all sections and routes                           |
-| `Hero.jsx`             | Static top banner and description                                           |
-| `MenuBar.jsx`          | Simple top navigation placeholder                                           |
-| `FileUploader.jsx`     | Allows users to select and upload a CSV file to the `/upload` API endpoint  |
-| `PredictionTool.jsx`   | Accepts manual form input for campaign features, submits to `/predict`      |
-| `RecommendationTool.jsx` | Submits a test budget to `/recommend` and displays the backend’s suggestion |
-| `Footer.jsx`           | Layout placeholder (static)                                                 |
-| `ThemeToggle.jsx`      | Enables toggling between dark and light themes                              |
+This implementation leverages Vite for fast refresh, lightweight dev server startup, and optimized builds.
 
 ---
 
-## Current Limitations
+## File and Folder Structure
 
-- The dynamic **dashboard selector UI** has not yet been implemented
-- Component states are handled with minimal hooks
-- No global context or router is used
-- Form input options are not auto-filled based on the actual dataset values
-- Output is shown directly with basic HTML; no charts or animations are present
+```
+frontend-v2/
+├── public/                     # Static files served as-is
+│   └── favicon.ico            # App favicon
+├── src/                       # Source files
+│   ├── assets/                # Local images and static media
+│   │   └── logo.png          # Example image asset
+│   ├── components/            # Reusable React components
+│   │   ├── Dashboard.jsx     # Main dashboard UI component
+│   │   └── Header.jsx        # Header bar with branding or nav
+│   ├── App.jsx                # Root React component
+│   ├── main.jsx               # Application entry point for Vite
+│   └── styles.css             # Global styles (if any)
+├── index.html                 # Root HTML file loaded by Vite
+├── package.json               # Project metadata and scripts
+├── vite.config.js             # Vite configuration
+└── README.md                  # (To be replaced by this document)
+```
 
 ---
 
-## Setup Instructions
+## Application Flow and Functionality
 
-From the root of the repository:
+1. **Entry Point:**
+
+   * The app starts at `main.jsx`, which mounts the `App` component into the DOM.
+
+2. **App Component:**
+
+   * `App.jsx` acts as the layout controller and router for the application.
+   * Components like `Dashboard` or `Header` are rendered here or conditionally based on application logic.
+
+3. **Dashboard:**
+
+   * This is the main view presented to users.
+   * It likely fetches prediction results from the backend (e.g., `/predict`) and renders charts, metrics, or KPIs.
+   * Any frontend logic for parsing or displaying model output is located here.
+
+4. **Header:**
+
+   * A simple reusable UI element for branding or navigation.
+
+5. **Assets:**
+
+   * The `assets/` folder includes images or other static resources referenced in JSX.
+
+6. **Styling:**
+
+   * Styles are written in `styles.css` or directly in JSX using class names. You can use a CSS framework if needed.
+
+7. **API Calls:**
+
+   * Likely made using `fetch` or `axios` from within components (e.g., `Dashboard.jsx`) to retrieve campaign prediction data from the Flask backend.
+
+---
+
+## How to Run the Frontend (Development Mode)
+
+### Prerequisites
+
+* Node.js (v18.x or later recommended)
+* npm (v9.x or later)
+
+### Step-by-Step Setup
+
+1. **Navigate to the project directory:**
+
+   ```bash
+   cd frontend-v2
+   ```
+
+2. **Install dependencies:**
+
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server:**
+
+   ```bash
+   npm run dev
+   ```
+
+4. **Open in browser:**
+
+   * Vite will provide a local server (usually `http://localhost:5173`)
+
+---
+
+## Building for Production
+
+To build an optimized version of the frontend:
 
 ```bash
-cd frontend
+npm run build
+```
+
+This will output the static files to the `dist/` directory, which can then be served by any static file server or connected to the backend.
+
+---
+
+## Troubleshooting / FAQ
+
+### Q: `npm: command not found`
+
+**A:** Ensure Node.js and npm are installed. Visit [https://nodejs.org/](https://nodejs.org/) and install the latest LTS version.
+
+### Q: `npm install` fails or hangs
+
+**A:** Delete `node_modules/` and `package-lock.json`, then try again:
+
+```bash
+rm -rf node_modules package-lock.json
 npm install
-npm run dev
 ```
 
-Then visit:
-```
-http://localhost:5173
+### Q: `npm run dev` says script is missing
+
+**A:** Make sure you're in the correct folder (`frontend-v2`). The correct script should exist in `package.json`:
+
+```json
+"scripts": {
+  "dev": "vite",
+  "build": "vite build",
+  "preview": "vite preview"
+}
 ```
 
-Ensure the Flask backend is running on `localhost:5000` in parallel to handle form submissions.
+### Q: Frontend loads but no data appears
+
+**A:** Make sure the backend is running and accessible from the frontend. Check that CORS is enabled on the backend and that it's running on the expected port (`http://localhost:5000` by default).
+
+### Q: Styling looks broken
+
+**A:** Check that `styles.css` is correctly imported in `main.jsx` or `App.jsx` and that no CSS files are missing or misnamed.
+
+### Q: Can't preview build
+
+**A:** Run:
+
+```bash
+npm run build
+npm run preview
+```
+
+Vite will serve the production build on a new local port.
 
 ---
 
-## API Communication
+## Final Notes
 
-Each form in the frontend connects to a backend route:
-- `POST /upload` → FileUploader
-- `POST /predict` → PredictionTool
-- `GET /recommend?budget=XXXX` → RecommendationTool
-
-These requests are made with standard `fetch()` calls.
-
----
-
-## Future Development (Planned in Roadmap)
-
-- Build a complete **DashboardSelector.jsx** with:
-  - Dynamic input fields populated from backend metadata
-  - Animated step-by-step UX for campaign creation
-  - Integrated SHAP explanations and performance graphs
-- Fully redesign all static components into dynamic UI modules
-- Incorporate routing and persistent state across component flows
-- Include Postman test panel, code snippets, and inline API documentation
-
----
-
-## Summary
-The current frontend is a placeholder layer designed to simulate workflow interaction with the machine learning backend. It can be used for local testing and proof of concept but does not represent a final user interface.
-
-Refer to [`backend.md`](./backend.md) to understand the models, API structure, and logic that powers this interface.
+This frontend is designed to be simple, extendable, and focused entirely on visualizing campaign prediction data. All interaction with the backend happens through HTTP requests defined in the main components. Contributions or improvements should follow React best practices and maintain Vite-compatible configurations.
