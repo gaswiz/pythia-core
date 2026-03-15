@@ -53,8 +53,8 @@ The project focuses on reproducible model inference and explicit output contract
 
 ```mermaid
 flowchart LR
-  U[Campaign input: JSON/CSV] --> F[Frontend (React + Vite)]
-  F -->|/predict, /upload, /health| B[Flask API (backend/app.py)]
+  U["Campaign input: JSON, CSV"] --> F["Frontend (React + Vite)"]
+  F -->|API endpoints| B["Flask API (backend/app.py)"]
   B --> M[Model assets: models/*.pkl]
   B --> D[data/marketing_campaign_dataset.csv / uploaded CSV]
   B --> X[SHAP explainer + optional MongoDB]
