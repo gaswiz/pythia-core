@@ -1,110 +1,135 @@
-# Backend Overview — P.Y.T.H.I.A.
+# Backend Architecture — P.Y.T.H.I.A.
 
-This document describes the backend architecture and logic of **P.Y.T.H.I.A.**, the predictive analytics engine. While a frontend is available for testing purposes, the core system functionality is developed and maintained in the backend.
+## Overview
 
----
+The backend is a Flask API responsible for prediction, upload, and recommendation workflows. It is intentionally thin at the transport layer and explicit about input/output contracts for the frontend and API clients.
 
-## Core Concepts
-The backend is implemented in Python and built around:
-- **Flask**: for serving predictions, recommendations, and handling uploads
-- **MongoDB**: for storing cleaned data, logs, performance metrics, and model output
-- **scikit-learn**: for training and evaluating regression models
-- **SHAP**: for explainability of predictions
+Core modules:
 
-Some important utility scripts and modules related to backend logic are intentionally located **outside the backend folder**. This was done to allow reuse from both backend and frontend parts of the project without path conflicts.
+- `backend.app` runtime server and route handlers
+- `backend.config` runtime settings and model/data paths
+- `backend.utils.db` optional MongoDB connector (degrades gracefully when unavailable)
+- script utilities under `scripts/` for training and preprocessing support
 
----
+## System Flow
 
-## Key Backend Files and What They Do
+```text
+Client -> Flask app -> request validation -> model loading -> output + optional persistence -> response
+```
 
-### `app.py`
-- Serves as the main Flask application.
-- Handles the following endpoints:
-  - `POST /upload`: accepts a CSV file and stores cleaned records into MongoDB
-  - `POST /predict`: performs prediction based on input metadata using two trained models
-  - `GET /recommend`: returns a data-driven recommendation based on a given budget
-  - `GET /api/dataset/options`: extracts unique values from the dataset for use in the UI
-- Loads pre-trained models from disk and prepares background data for SHAP explanations.
+The API supports:
 
-### `data_cleaning.py`
-- Prepares campaign datasets for training and prediction.
-- Converts fields, removes bad rows, computes derived features (e.g. CPC, ROI)
-- Uploads cleaned records to MongoDB collection `clean_campaigns`
-- Called prior to model training or batch uploads
+- direct JSON inference with numeric feature payloads,
+- CSV upload for campaign history refresh,
+- recommendation lookup from uploaded/background data.
 
-### `model_training.py`
-- Trains two models:
-  - **Logistic Regression**: classifies campaigns into ROI-positive or ROI-negative
-  - **Poisson Regression**: predicts number of clicks
-- Splits data, trains and evaluates models, logs metrics (accuracy, MAE, R2)
-- Exports trained models to `/models/` as `.pkl` files
+## Runtime Components
 
-### `recommend_engine.py`
-- Loads trained models and generates:
-  - SHAP-based explanations of feature influence
-  - Recommendations for campaign duration and budget using past high-performing examples
-- Saves recommendations to MongoDB
+### `backend/app.py`
 
-### `export_results.py`
-- Extracts all predictions and recommendations from MongoDB
-- Exports to JSON and CSV formats under `/exports/`
-- Useful for analysis or Looker Studio integration
+Defines these endpoints:
 
----
+- `GET /health`  
+  Returns service health, MongoDB connectivity state, and model artifact presence.
+- `POST /predict`  
+  Runs validation + inference and returns ROI class and click estimate.
+- `GET /recommend`  
+  Resolves a recommendation from campaign history for `budget` query param.
+- `POST /upload`  
+  Accepts a CSV file and updates the in-memory/background campaign frame.
 
-## Config and Utilities
+### Model loading and runtime behavior
 
-### `config.py`
-Defines:
-- MongoDB URI and database name
-- Collection names for various data layers
+- Model paths are read from `backend.config`:
+  - `LOGISTIC_MODEL_PATH` → `models/logistic_roi_model.pkl`
+  - `POISSON_MODEL_PATH` → `models/poisson_click_model.pkl`
+- Models and SHAP explainer are lazily loaded and cached where practical.
+- If model files are missing, `/predict` returns `500` with a clear error.
 
-### `db.py`
-Utility for initializing and returning the database instance from `config.py`
+### Database integration
 
-### `experiment_logger.py`
-- Used for logging evaluation metrics and experiment metadata to `experiment_results` collection
-- Accepts dataset name, model type, and dictionary of metrics
+Persistence is optional and controlled by `MONGO_URI`.
 
----
+- If `MONGO_URI` is set and reachable, predictions, recommendations, and uploads are stored in MongoDB collections.
+- If not configured, API behavior remains functional with fallback paths (in-memory/background frame only).
 
-## Notes on File Structure
-The following structure is used to keep the backend logic testable and integrated with other parts of the system:
+## ML Pipeline
 
-- `data_cleaning.py`, `model_training.py`, `recommend_engine.py`, and `export_results.py` are not inside the `backend/` folder but remain part of the core system. This design ensures they can be used both:
-  - Programmatically (from CLI, experiments, or frontend API)
-  - As standalone scripts
+### Prediction flow
 
----
+1. Validate payload contains:
+   - `Acquisition_Cost`
+   - `Impressions`
+   - `Clicks`
+   - `Conversion_Rate`
+   - `Duration`
+2. Coerce each field to numeric format.
+3. Execute:
+   - logistic model on the feature vector → `ROI_Category`,
+   - Poisson model on the same feature vector → `Estimated_Clicks`.
+4. Optionally compute SHAP values if SHAP and background data are available.
+5. Return JSON response and persist optional logs.
 
-## Typical Input/Output
+### Dataset handling
 
-- Input: `marketing_campaign_dataset.csv` (must include fields such as Impressions, Clicks, Acquisition_Cost, Duration)
-- Output:
-  - Prediction (CTR, Clicks, ROI category)
-  - SHAP explanation per feature
-  - Recommended duration and expected performance for a given budget
+- Primary fallback source is `data/marketing_campaign_dataset.csv`.
+- `POST /upload` requires a CSV file.
+- Uploaded data is normalized to required model feature columns:
+  - missing columns are added with zero values,
+  - non-convertible values are dropped,
+  - data is kept numeric before inference use.
 
----
+### Feature preprocessing
 
-## SHAP and Explainability
+- Feature enforcement is central and strict by schema.
+- Normalization ensures only expected model features are used by inference.
+- Missing required fields return a 400 validation error with explicit names.
 
-- SHAP values are generated for every prediction
-- Stored internally but can be visualized using exported plots
-- A summary plot (`shap_summary_bar.png`) is generated during recommendation processing
+### Recommendation flow (`/recommend`)
 
----
+- Query parameter: `budget` (required).
+- Recommendation search applies a ±20% budget window over the available background frame.
+- If no candidate exists, a 404 response is returned with a descriptive message.
 
-## Integration with Frontend
+## API Contract Reference
 
-- The backend exposes endpoints consumed by the React-based frontend
-- These endpoints enable:
-  - Upload of CSV files
-  - Step-by-step selection of campaign parameters
-  - Prediction display and recommendation fetching
+### `POST /predict` request body
 
----
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `Acquisition_Cost` | number | yes | Campaign spend assumption |
+| `Impressions` | number | yes | Campaign reach estimate |
+| `Clicks` | number | yes | Prior clicks reference |
+| `Conversion_Rate` | number | yes | Conversion ratio |
+| `Duration` | number | yes | Campaign duration |
 
-Continue reading [`frontend.md`](./frontend.md) to understand how the frontend interacts with this API.
+### `POST /predict` response
 
-Ensure `models/` and `data/` directories are populated before attempting predictions.
+| Field | Type | Meaning |
+|---|---|---|
+| `ROI_Category` | integer | Binary ROI direction class |
+| `Estimated_Clicks` | number | Poisson model forecast |
+| `SHAP_Explanation` | object | optional feature influence values |
+
+### `POST /upload`
+
+- multipart/form-data with key `file`.
+- accepts CSV only.
+- response includes row count and persistence status.
+
+### `GET /recommend?budget=<amount>`
+
+- `budget`: numeric query parameter.
+- response includes recommended duration, expected clicks, and expected conversion rate.
+
+## Logging and Observability
+
+Structured responses from:
+
+- `/health` for runtime check and status.
+- `prediction` and `recommendation` routes for API-level diagnostics and graceful fallback behavior.
+
+## External References
+
+- Frontend integration details: [frontend.md](./frontend.md)
+- Setup steps: [installation.md](./installation.md)

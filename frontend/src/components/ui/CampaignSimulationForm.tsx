@@ -50,7 +50,7 @@ export default function CampaignSimulationForm() {
   };
 
   return (
-    <div id="campaign-simulation-form" className="shadow-input mx-auto w-full max-w-2xl rounded-none bg-white p-4 md:rounded-2xl md:p-8 dark:bg-black">
+    <div id="campaign-simulation-form" className="shadow-input mx-auto w-full max-w-2xl rounded-none bg-white p-4 md:rounded-xl md:p-8 dark:bg-black">
       <h2 className="text-xl font-bold text-neutral-800 dark:text-neutral-200">
         Run Your Campaign Simulation
       </h2>
@@ -100,9 +100,7 @@ export default function CampaignSimulationForm() {
             className="group/btn shadow-input relative flex h-10 w-full items-center justify-start space-x-2 rounded-md bg-gray-50 px-4 font-medium text-black dark:bg-zinc-900"
           >
             <IconBrandGoogle className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
-            <span className="text-sm text-neutral-700 dark:text-neutral-300">
-              Google
-            </span>
+            <span className="sr-only">Google Analytics</span>
             <BottomGradient />
           </a>
           <a
@@ -112,9 +110,7 @@ export default function CampaignSimulationForm() {
             className="group/btn shadow-input relative flex h-10 w-full items-center justify-start space-x-2 rounded-md bg-gray-50 px-4 font-medium text-black dark:bg-zinc-900"
           >
             <IconBrandMeta className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
-            <span className="text-sm text-neutral-700 dark:text-neutral-300">
-              Meta
-            </span>
+            <span className="sr-only">Meta</span>
             <BottomGradient />
           </a>
         </div>

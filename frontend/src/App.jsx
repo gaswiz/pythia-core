@@ -73,7 +73,7 @@ const chartTickStyle = {
 function getChannelBadge(channel) {
   switch (channel) {
     case "Google Ads":
-      return { label: "Google Ads", icon: <IconBrandGoogle className="h-3.5 w-3.5" /> };
+      return { label: "Google", icon: <IconBrandGoogle className="h-3.5 w-3.5" /> };
     case "Instagram":
       return { label: "Instagram", icon: <IconBrandInstagram className="h-3.5 w-3.5" /> };
     case "YouTube":
@@ -346,7 +346,7 @@ function App() {
             />
             <div className="mt-8 grid gap-4 md:grid-cols-2">
               {capabilityCards.map((card) => (
-                <div key={card.title} className="rounded-2xl border border-white/10 bg-white/5 p-5">
+                <div key={card.title} className="rounded-xl border border-white/10 bg-white/5 p-5">
                   <h3 className="text-base font-semibold text-white">{card.title}</h3>
                   <p className="mt-2 text-sm leading-6 text-slate-300">{card.description}</p>
                 </div>
@@ -383,7 +383,7 @@ function App() {
                   key={scenario.id}
                   type="button"
                   onClick={() => setSelectedScenarioId(scenario.id)}
-                  className={`rounded-2xl border p-4 text-left transition ${
+                  className={`rounded-xl border p-4 text-left transition ${
                     selectedScenarioId === scenario.id
                       ? "border-cyan-400 bg-cyan-400/10 shadow-[0_0_0_1px_rgba(34,211,238,0.2)]"
                       : "border-white/10 bg-white/5 hover:border-white/25 hover:bg-white/[0.08]"
@@ -397,9 +397,9 @@ function App() {
                     <span
                       className="flex items-center justify-center rounded-full border border-white/10 bg-black/30 px-2 py-1"
                       title={getChannelBadge(scenario.channel).label}
+                      aria-label={getChannelBadge(scenario.channel).label}
                     >
                       <span className="text-slate-200">{getChannelBadge(scenario.channel).icon}</span>
-                      <span className="sr-only">{getChannelBadge(scenario.channel).label}</span>
                     </span>
                   </div>
                 </button>
@@ -510,7 +510,7 @@ function App() {
               </a>
             </div>
 
-            <div className="mt-5 rounded-2xl border border-white/10 bg-slate-950/80 p-4 text-sm text-slate-300">
+            <div className="mt-5 rounded-xl border border-white/10 bg-slate-950/80 p-4 text-sm text-slate-300">
               <p className="font-medium text-white">API mode</p>
               <p className="mt-1 leading-6">
                 The simulator first attempts <code>{API_BASE}/predict</code>. If the Flask API is unavailable, the page switches to a local demo engine with the same payload shape.
@@ -526,7 +526,7 @@ function App() {
                   <h2 className="mt-4 text-2xl font-semibold text-white">Prediction output</h2>
                   <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-300">{result.summary}</p>
                 </div>
-                <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-200">
+                <div className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-200">
                   <div className="text-xs uppercase tracking-[0.2em] text-slate-400">ROI cohort</div>
                   <div className="mt-2 text-base font-semibold">{result.roiCategory}</div>
                 </div>
@@ -580,7 +580,7 @@ function App() {
               title="What the backend sees and where it lands"
               description="The backend request contract stays visible in one place, with scenario benchmarking right next to it."
             />
-            <pre className="mt-6 overflow-auto rounded-2xl border border-white/10 bg-slate-950/90 p-5 text-xs leading-6 text-slate-300">
+            <pre className="mt-6 overflow-auto rounded-xl border border-white/10 bg-slate-950/90 p-5 text-xs leading-6 text-slate-300">
               {JSON.stringify(result.payload, null, 2)}
             </pre>
             <div className="mt-8">
@@ -616,7 +616,7 @@ function App() {
 
             <div className="mt-8 grid gap-4">
               {evaluationMetrics.map((metric) => (
-                <div key={metric.dataset} className="rounded-2xl border border-white/10 bg-white/5 p-5">
+                <div key={metric.dataset} className="rounded-xl border border-white/10 bg-white/5 p-5">
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
                       <h3 className="text-base font-semibold text-white">{metric.dataset}</h3>
@@ -652,7 +652,7 @@ function App() {
                 </BarChart>
               </ResponsiveContainer>
             </div>
-            <div className="mt-6 rounded-2xl border border-amber-400/20 bg-amber-400/10 p-4 text-sm leading-6 text-amber-100">
+            <div className="mt-6 rounded-xl border border-amber-400/20 bg-amber-400/10 p-4 text-sm leading-6 text-amber-100">
               <strong>Interpretation note:</strong> the classified advertising experiment reports 99.5% accuracy, but the underlying test support is heavily skewed. The UI deliberately keeps that caveat visible instead of presenting the number as a blanket performance claim.
             </div>
           </SectionFrame>
@@ -667,9 +667,9 @@ function App() {
             />
             <div className="mt-8 grid gap-4">
               {workflowSteps.map((step, index) => (
-                <div key={step.title} className="rounded-2xl border border-white/10 bg-white/5 p-5">
+                <div key={step.title} className="rounded-xl border border-white/10 bg-white/5 p-5">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-cyan-400/15 text-cyan-300">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-cyan-400/15 text-cyan-300">
                       0{index + 1}
                     </div>
                     <h3 className="text-base font-semibold text-white">{step.title}</h3>
@@ -724,7 +724,7 @@ function App() {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-cyan-400/40 hover:bg-white/[0.08]"
+                  className="group rounded-xl border border-white/10 bg-white/5 p-5 transition hover:border-cyan-400/40 hover:bg-white/[0.08]"
                 >
                   <div className="flex items-center justify-between gap-4">
                     <h3 className="text-base font-semibold text-white">{link.title}</h3>
@@ -769,7 +769,7 @@ function Header() {
     <header className="sticky top-0 z-50 border-b border-white/10 bg-slate-950/70 backdrop-blur-xl">
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-6 px-4 py-4 sm:px-6 lg:px-8">
         <a href="#top" className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-cyan-400/15 text-cyan-300">
+          <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-cyan-400/15 text-cyan-300">
             <IconSparkles className="h-5 w-5" />
           </div>
           <div>
@@ -840,7 +840,7 @@ function Hero({ result }) {
         </div>
 
         <div className="grid gap-4">
-          <div className="rounded-[24px] border border-white/10 bg-slate-950/75 p-5">
+          <div className="rounded-xl border border-white/10 bg-slate-950/75 p-5">
             <div className="flex items-center justify-between gap-3">
               <div>
                 <p className="text-xs uppercase tracking-[0.24em] text-slate-400">Current preview</p>
@@ -943,7 +943,7 @@ function Field({ label, children }) {
 
 function KpiCard({ label, value, detail }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+    <div className="rounded-xl border border-white/10 bg-white/[0.04] p-5">
       <div className="text-xs uppercase tracking-[0.22em] text-slate-400">{label}</div>
       <div className="mt-3 text-3xl font-semibold text-white">{value}</div>
       <div className="mt-2 text-sm text-slate-300">{detail}</div>
@@ -953,7 +953,7 @@ function KpiCard({ label, value, detail }) {
 
 function PreviewCard({ label, value, icon }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+    <div className="rounded-xl border border-white/10 bg-white/[0.04] p-4">
       <div className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-slate-400">
         {icon}
         {label}
@@ -965,7 +965,7 @@ function PreviewCard({ label, value, icon }) {
 
 function ChartPanel({ title, subtitle, children }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+    <div className="rounded-xl border border-white/10 bg-white/[0.04] p-5">
       <h3 className="text-base font-semibold text-white">{title}</h3>
       <p className="mt-2 text-sm leading-6 text-slate-300">{subtitle}</p>
       <div className="mt-5">{children}</div>
@@ -975,7 +975,7 @@ function ChartPanel({ title, subtitle, children }) {
 
 function MetricRow({ label, value, caption }) {
   return (
-    <div className="flex items-start justify-between gap-4 rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-4">
+    <div className="flex items-start justify-between gap-4 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-4">
       <div>
         <dt className="text-xs uppercase tracking-[0.22em] text-slate-400">{label}</dt>
         <dd className="mt-2 text-sm text-slate-300">{caption}</dd>
@@ -987,7 +987,7 @@ function MetricRow({ label, value, caption }) {
 
 function MetricBadge({ label, value }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-black/20 px-3 py-2">
+    <div className="rounded-lg border border-white/10 bg-black/20 px-3 py-2">
       <div className="text-[11px] uppercase tracking-[0.2em] text-slate-400">{label}</div>
       <div className="mt-1 text-sm font-semibold text-white">{typeof value === "number" ? value.toFixed(3) : value}</div>
     </div>
@@ -996,7 +996,7 @@ function MetricBadge({ label, value }) {
 
 function InfoTile({ icon, title, children }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+    <div className="rounded-xl border border-white/10 bg-white/[0.04] p-5">
       <div className="flex items-center gap-3 text-cyan-300">
         {icon}
         <h3 className="text-base font-semibold text-white">{title}</h3>
@@ -1009,7 +1009,7 @@ function InfoTile({ icon, title, children }) {
 const tooltipStyle = {
   backgroundColor: "rgba(15, 23, 42, 0.96)",
   border: "1px solid rgba(148, 163, 184, 0.18)",
-  borderRadius: "18px",
+  borderRadius: "12px",
   color: "#e2e8f0",
   fontFamily: chartFont,
 };

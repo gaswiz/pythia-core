@@ -1,168 +1,117 @@
-# Frontend (React + Vite)
-
-This document provides a full overview of the `frontend` folder of the P.Y.T.H.I.A. project. The current frontend is built using **React** with **Vite** as the bundler and development server. It is intended to be clean, modular, and easy to integrate with the backend system.
-
----
+# Frontend Documentation — P.Y.T.H.I.A.
 
 ## Overview
 
-The frontend is a modern React application structured to interact with the P.Y.T.H.I.A. backend, which provides predictions for campaign performance using machine learning. It fetches results from the backend and visualizes them in a user-friendly interface.
+The frontend is a React + Vite application that functions as a technical demo surface for campaign inference workflows. It is designed to show the backend contract, model outputs, and result interpretation in one coherent product-style layout.
 
-This implementation leverages Vite for fast refresh, lightweight dev server startup, and optimized builds.
+## Stack
 
----
+- **Framework:** React 19
+- **Bundler/dev server:** Vite
+- **Charting:** Recharts
+- **Animation:** Framer Motion
+- **Icons:** Tabler Icons React
 
-## File and Folder Structure
+## Responsibilities
 
-```
+- Collect campaign parameters through scenario controls and form inputs.
+- Send prediction requests to Flask backend (`/predict`).
+- Display API payload and response with readable sections.
+- Render inference visuals (forecast and influence charts) and scenario summaries.
+- Surface fallback behavior when backend is unavailable.
+
+## File Map
+
+```text
 frontend/
-├── public/                     # Static files served as-is
-│   └── favicon.ico            # App favicon
-├── src/                       # Source files
-│   ├── assets/                # Local images and static media
-│   │   └── logo.png          # Example image asset
-│   ├── components/            # Reusable React components
-│   │   ├── Dashboard.jsx     # Main dashboard UI component
-│   │   └── Header.jsx        # Header bar with branding or nav
-│   ├── App.jsx                # Root React component
-│   ├── main.jsx               # Application entry point for Vite
-│   └── styles.css             # Global styles (if any)
-├── index.html                 # Root HTML file loaded by Vite
-├── package.json               # Project metadata and scripts
-├── vite.config.js             # Vite configuration
-└── README.md                  # (To be replaced by this document)
+├── index.html
+├── package.json
+├── vite.config.js
+├── src/
+│   ├── App.jsx          # Main single-page application container
+│   ├── main.jsx         # Vite entrypoint
+│   ├── demoData.js      # Scenario data, feature metadata, static experiment summaries
+│   ├── index.css        # Shared visual system + global styles
+│   └── components/      # Reusable utility UI components
+└── public/              # Media assets used in hero and docs
 ```
 
----
+## Frontend Modes
 
-## Application Flow and Functionality
+### API mode
 
-1. **Entry Point:**
+- Active when `http://127.0.0.1:5000/predict` responds successfully.
+- Uses live payload from scenario/form and renders server response.
+- Uses the same feature names as backend contract.
 
-   * The app starts at `main.jsx`, which mounts the `App` component into the DOM.
+### Demo mode
 
-2. **App Component:**
+- Triggered automatically when backend call fails.
+- Uses local deterministic inference logic with identical payload shape.
+- Keeps UI behavior unchanged for portfolio review and offline inspection.
 
-   * `App.jsx` acts as the layout controller and router for the application.
-   * Components like `Dashboard` or `Header` are rendered here or conditionally based on application logic.
+## Charting and Result Panels
 
-3. **Dashboard:**
+The interface uses Recharts for:
 
-   * This is the main view presented to users.
-   * It likely fetches prediction results from the backend (e.g., `/predict`) and renders charts, metrics, or KPIs.
-   * Any frontend logic for parsing or displaying model output is located here.
+- forecast/pacing curves,
+- feature influence bars (from SHAP payload when present),
+- scenario and experiment-level comparisons.
 
-4. **Header:**
+All chart containers are intentionally large and top-level sections are kept to structured, non-fragmented panels to preserve readability.
 
-   * A simple reusable UI element for branding or navigation.
+## API and Contract Alignment
 
-5. **Assets:**
+### Expected JSON contract
 
-   * The `assets/` folder includes images or other static resources referenced in JSX.
-
-6. **Styling:**
-
-   * Styles are written in `styles.css` or directly in JSX using class names. You can use a CSS framework if needed.
-
-7. **API Calls:**
-
-   * Likely made using `fetch` or `axios` from within components (e.g., `Dashboard.jsx`) to retrieve campaign prediction data from the Flask backend.
-
----
-
-## How to Run the Frontend (Development Mode)
-
-### Prerequisites
-
-* Node.js (v18.x or later recommended)
-* npm (v9.x or later)
-
-### Step-by-Step Setup
-
-1. **Navigate to the project directory:**
-
-   ```bash
-   cd frontend
-   ```
-
-2. **Install dependencies:**
-
-   ```bash
-   npm install
-   ```
-
-3. **Start the development server:**
-
-   ```bash
-   npm run dev
-   ```
-
-4. **Open in browser:**
-
-   * Vite will provide a local server (usually `http://localhost:5173`)
-
----
-
-## Building for Production
-
-To build an optimized version of the frontend:
-
-```bash
-npm run build
-```
-
-This will output the static files to the `dist/` directory, which can then be served by any static file server or connected to the backend.
-
----
-
-## Troubleshooting / FAQ
-
-### Q: `npm: command not found`
-
-**A:** Ensure Node.js and npm are installed. Visit [https://nodejs.org/](https://nodejs.org/) and install the latest LTS version.
-
-### Q: `npm install` fails or hangs
-
-**A:** Delete `node_modules/` and `package-lock.json`, then try again:
-
-```bash
-rm -rf node_modules package-lock.json
-npm install
-```
-
-### Q: `npm run dev` says script is missing
-
-**A:** Make sure you're in the correct folder (`frontend`). The correct script should exist in `package.json`:
+Backend request fields:
 
 ```json
-"scripts": {
-  "dev": "vite",
-  "build": "vite build",
-  "preview": "vite preview"
+{
+  "Acquisition_Cost": 12496,
+  "Impressions": 5517,
+  "Clicks": 550,
+  "Conversion_Rate": 0.08,
+  "Duration": 30
 }
 ```
 
-### Q: Frontend loads but no data appears
+Expected response fields:
 
-**A:** Make sure the backend is running and accessible from the frontend. Check that CORS is enabled on the backend and that it's running on the expected port (`http://localhost:5000` by default).
-
-### Q: Styling looks broken
-
-**A:** Check that `styles.css` is correctly imported in `main.jsx` or `App.jsx` and that no CSS files are missing or misnamed.
-
-### Q: Can't preview build
-
-**A:** Run:
-
-```bash
-npm run build
-npm run preview
+```json
+{
+  "ROI_Category": 1,
+  "Estimated_Clicks": 1200,
+  "SHAP_Explanation": {
+    "Acquisition_Cost": 0.01
+  }
+}
 ```
 
-Vite will serve the production build on a new local port.
+### Response handling
 
----
+- Missing or invalid responses are shown with graceful fallback.
+- Prediction output cards are updated from the response payload and derived fields.
 
-## Final Notes
+## Local Demo Run
 
-This frontend is designed to be simple, extendable, and focused entirely on visualizing campaign prediction data. All interaction with the backend happens through HTTP requests defined in the main components. Contributions or improvements should follow React best practices and maintain Vite-compatible configurations.
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Open local URL shown by Vite (typically `http://localhost:5173`).
+
+## Navigation and Sectioning
+
+- Top navigation: Overview → Demo → Model Insights → Documentation
+- Reusable section wrappers provide consistent spacing and visual rhythm.
+
+## Notes for Contributors
+
+When modifying layout or chart behavior:
+
+- preserve payload labels and field names,
+- keep backend/developer fallback behavior intact,
+- avoid changing demo logic unless coordinated with API contract changes.
