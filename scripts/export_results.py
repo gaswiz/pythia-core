@@ -10,8 +10,8 @@ import pandas as pd
 from pymongo import MongoClient
 
 # ------------------- CONFIG ------------------- #
-MONGO_URI = "mongodb://localhost:27017"
-DB_NAME = "pythia"
+MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
+DB_NAME = os.getenv("DATABASE_NAME", "pythia")
 EXPORT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "exports")
 os.makedirs(EXPORT_DIR, exist_ok=True)
 

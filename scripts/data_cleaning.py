@@ -10,9 +10,9 @@ import pandas as pd
 from pymongo import MongoClient
 
 # ------------------- CONFIG ------------------- #
-# MongoDB connection (local, default port)
-MONGO_URI = "mongodb://localhost:27017"
-DB_NAME = "pythia"
+# MongoDB connection
+MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
+DB_NAME = os.getenv("DATABASE_NAME", "pythia")
 COLLECTION_NAME = "clean_campaigns"
 
 # Dataset path (relative to project root)

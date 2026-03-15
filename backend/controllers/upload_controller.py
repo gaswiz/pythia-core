@@ -1,5 +1,3 @@
-# backend/controllers/upload_controller.py
-
 import pandas as pd
 from backend.utils.db import get_db
 
@@ -17,6 +15,7 @@ def process_upload(file):
 
     # Store in MongoDB
     db = get_db()
-    db.clean_campaigns.insert_many(df.to_dict(orient='records'))
+    if db is not None:
+        db.clean_campaigns.insert_many(df.to_dict(orient='records'))
 
     return {"message": "File uploaded and processed successfully"}

@@ -1,12 +1,16 @@
-# backend/controllers/predict_controller.py
-
 import joblib
 import numpy as np
+from pathlib import Path
+
 from backend.utils.db import get_db
 
+
+MODELS_DIR = Path(__file__).resolve().parents[2] / "models"
+
+
 def predict_campaign(data):
-    cls_model = joblib.load("models/logistic_model.pkl")
-    reg_model = joblib.load("models/poisson_model.pkl")
+    cls_model = joblib.load(MODELS_DIR / "logistic_roi_model.pkl")
+    reg_model = joblib.load(MODELS_DIR / "poisson_click_model.pkl")
 
     input_features = np.array([
         data.get("Budget", 0),
@@ -21,19 +25,19 @@ def predict_campaign(data):
 
     # Optional: log the prediction to MongoDB
     db = get_db()
-    db.predictions_logs.insert_one({
-        "input": data,
-        "output": {
-            "ROI_Category": roi_class,
-            "Estimated_Clicks": est_clicks
-        }
-    })
+    if db is not None:
+        db.predictions_logs.insert_one({
+            "input": data,
+            "output": {
+                "ROI_Category": roi_class,
+                "Estimated_Clicks": est_clicks
+            }
+        })
 
     return {
         "ROI_Category": roi_class,
         "Estimated_Clicks": est_clicks
     }
-
 
 
 

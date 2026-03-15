@@ -1,11 +1,15 @@
-# backend/controllers/recommend_controller.py
-
 import joblib
 import numpy as np
+from pathlib import Path
+
 from backend.utils.db import get_db
 
+
+MODELS_DIR = Path(__file__).resolve().parents[2] / "models"
+
+
 def generate_recommendation(data):
-    reg_model = joblib.load("models/poisson_model.pkl")
+    reg_model = joblib.load(MODELS_DIR / "poisson_click_model.pkl")
 
     input_features = np.array([
         data.get("Budget", 0),
@@ -25,9 +29,10 @@ def generate_recommendation(data):
     }
 
     db = get_db()
-    db.recommendations.insert_one({
-        "input_budget": data.get("Budget"),
-        "recommendation": recommendation
-    })
+    if db is not None:
+        db.recommendations.insert_one({
+            "input_budget": data.get("Budget"),
+            "recommendation": recommendation
+        })
 
     return recommendation

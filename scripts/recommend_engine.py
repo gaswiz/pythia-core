@@ -15,8 +15,8 @@ from pymongo import MongoClient
 import matplotlib.pyplot as plt
 
 # ------------------- CONFIG ------------------- #
-MONGO_URI = "mongodb://localhost:27017"
-DB_NAME = "pythia"
+MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
+DB_NAME = os.getenv("DATABASE_NAME", "pythia")
 COLLECTION_NAME = "clean_campaigns"
 RECOMM_COLLECTION = "recommendations"
 MODEL_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "models")

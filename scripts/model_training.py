@@ -14,8 +14,8 @@ from sklearn.linear_model import LogisticRegression, PoissonRegressor
 from sklearn.metrics import accuracy_score, confusion_matrix, mean_absolute_error, r2_score
 
 # ------------------- CONFIG ------------------- #
-MONGO_URI = "mongodb://localhost:27017"
-DB_NAME = "pythia"
+MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
+DB_NAME = os.getenv("DATABASE_NAME", "pythia")
 COLLECTION_NAME = "clean_campaigns"
 MODEL_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "models")
 os.makedirs(MODEL_DIR, exist_ok=True)

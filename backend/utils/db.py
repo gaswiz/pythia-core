@@ -1,10 +1,17 @@
-# backend/utils/db.py
-
 from pymongo import MongoClient
-from backend.config import MONGO_URI, DATABASE_NAME
+from pymongo.errors import PyMongoError
+
+from backend.config import DATABASE_NAME, MONGO_URI
+
 
 def get_db():
-    """Establish connection to MongoDB and return the database object."""
-    client = MongoClient(MONGO_URI)
-    db = client[DATABASE_NAME]
-    return db
+    """Return a Mongo database handle when configured and reachable."""
+    if not MONGO_URI:
+        return None
+
+    try:
+        client = MongoClient(MONGO_URI, serverSelectionTimeoutMS=2000)
+        client.admin.command("ping")
+        return client[DATABASE_NAME]
+    except PyMongoError:
+        return None
