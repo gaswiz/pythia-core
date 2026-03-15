@@ -1,8 +1,0 @@
-import {
-  IconFaceMaskOff
-} from "./chunk-AQWQWBJO.js";
-import "./chunk-WDKXE3AR.js";
-import "./chunk-UCCAB3TN.js";
-export {
-  IconFaceMaskOff as default
-};

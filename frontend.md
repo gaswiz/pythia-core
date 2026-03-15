@@ -1,6 +1,6 @@
-# Frontend V2 (React + Vite)
+# Frontend (React + Vite)
 
-This document provides a full overview of the `frontend-v2` folder of the P.Y.T.H.I.A. project. This version replaces the earlier `frontend/` implementation and is built using **React** with **Vite** as the bundler and development server. It is intended to be clean, modular, and easy to integrate with the backend system.
+This document provides a full overview of the `frontend` folder of the P.Y.T.H.I.A. project. The current frontend is built using **React** with **Vite** as the bundler and development server. It is intended to be clean, modular, and easy to integrate with the backend system.
 
 ---
 
@@ -15,7 +15,7 @@ This implementation leverages Vite for fast refresh, lightweight dev server star
 ## File and Folder Structure
 
 ```
-frontend-v2/
+frontend/
 ├── public/                     # Static files served as-is
 │   └── favicon.ico            # App favicon
 ├── src/                       # Source files
@@ -82,7 +82,7 @@ frontend-v2/
 1. **Navigate to the project directory:**
 
    ```bash
-   cd frontend-v2
+   cd frontend
    ```
 
 2. **Install dependencies:**
@@ -132,7 +132,7 @@ npm install
 
 ### Q: `npm run dev` says script is missing
 
-**A:** Make sure you're in the correct folder (`frontend-v2`). The correct script should exist in `package.json`:
+**A:** Make sure you're in the correct folder (`frontend`). The correct script should exist in `package.json`:
 
 ```json
 "scripts": {

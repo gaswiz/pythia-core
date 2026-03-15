@@ -53,18 +53,15 @@ PYTHIA/
 ├── data/
 │   └── marketing_campaign_dataset.csv  # Core dataset (used by backend)
 │
-├── frontend/ (for demo/testing)
-│   └── src/components/               # React components
-│       ├── FileUploader.jsx
-│       ├── DashboardSelector.jsx
-│       ├── ...
-│
-├── public/                           # Static files if any
+├── frontend/                         # Canonical React + Vite frontend
+│   ├── public/                       # Static frontend assets
+│   └── src/                          # Frontend source code
 │
 ├── README.md                         # You are here
 ├── installation.md                   # Setup and dependencies
 ├── frontend.md                       # UI design and testing logic
 ├── backend.md                        # Backend prediction API design
+├── scripts/                          # Utility and data-processing scripts
 └── .gitignore
 ```
 
