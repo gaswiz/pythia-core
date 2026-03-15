@@ -1,7 +1,10 @@
 # backend/routes/predict_routes.py
 
 from flask import Blueprint, request, jsonify
-from backend.controllers.predict_controller import predict_campaign
+try:
+    from backend.controllers.predict_controller import predict_campaign
+except ModuleNotFoundError:
+    from controllers.predict_controller import predict_campaign
 
 predict_bp = Blueprint('predict_bp', __name__)
 

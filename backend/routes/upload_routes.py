@@ -1,7 +1,10 @@
 # backend/routes/upload_routes.py
 
 from flask import Blueprint, request, jsonify
-from backend.controllers.upload_controller import process_upload
+try:
+    from backend.controllers.upload_controller import process_upload
+except ModuleNotFoundError:
+    from controllers.upload_controller import process_upload
 
 upload_bp = Blueprint('upload_bp', __name__)
 
@@ -16,5 +19,4 @@ def upload():
 
     result = process_upload(file)
     return jsonify(result)
-
 

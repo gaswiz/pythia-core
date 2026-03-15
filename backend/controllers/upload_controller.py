@@ -1,5 +1,8 @@
 import pandas as pd
-from backend.utils.db import get_db
+try:
+    from backend.utils.db import get_db
+except ModuleNotFoundError:
+    from utils.db import get_db
 
 def process_upload(file):
     df = pd.read_csv(file)

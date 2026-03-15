@@ -19,17 +19,30 @@ from flask_cors import CORS
 
 load_dotenv(Path(__file__).with_name(".env"))
 
-from backend.config import (
-    FALLBACK_DATA_PATH,
-    FLASK_DEBUG,
-    FRONTEND_ORIGINS,
-    LOGISTIC_MODEL_PATH,
-    MODEL_FEATURES,
-    POISSON_MODEL_PATH,
-    PORT,
-    SHAP_BACKGROUND_SAMPLE_SIZE,
-)
-from backend.utils.db import get_db
+try:
+    from backend.config import (
+        FALLBACK_DATA_PATH,
+        FLASK_DEBUG,
+        FRONTEND_ORIGINS,
+        LOGISTIC_MODEL_PATH,
+        MODEL_FEATURES,
+        POISSON_MODEL_PATH,
+        PORT,
+        SHAP_BACKGROUND_SAMPLE_SIZE,
+    )
+    from backend.utils.db import get_db
+except ModuleNotFoundError:
+    from config import (
+        FALLBACK_DATA_PATH,
+        FLASK_DEBUG,
+        FRONTEND_ORIGINS,
+        LOGISTIC_MODEL_PATH,
+        MODEL_FEATURES,
+        POISSON_MODEL_PATH,
+        PORT,
+        SHAP_BACKGROUND_SAMPLE_SIZE,
+    )
+    from utils.db import get_db
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": FRONTEND_ORIGINS}})

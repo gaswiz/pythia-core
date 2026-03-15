@@ -1,7 +1,10 @@
 from pymongo import MongoClient
 from pymongo.errors import PyMongoError
 
-from backend.config import DATABASE_NAME, MONGO_URI
+try:
+    from backend.config import DATABASE_NAME, MONGO_URI
+except ModuleNotFoundError:
+    from config import DATABASE_NAME, MONGO_URI
 
 
 def get_db():

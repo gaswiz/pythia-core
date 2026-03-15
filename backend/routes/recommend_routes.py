@@ -1,7 +1,10 @@
 # backend/routes/recommend_routes.py
 
 from flask import Blueprint, request, jsonify
-from backend.controllers.recommend_controller import generate_recommendation
+try:
+    from backend.controllers.recommend_controller import generate_recommendation
+except ModuleNotFoundError:
+    from controllers.recommend_controller import generate_recommendation
 
 recommend_bp = Blueprint('recommend_bp', __name__)
 
@@ -13,5 +16,4 @@ def recommend():
 
     result = generate_recommendation(data)
     return jsonify(result)
-
 

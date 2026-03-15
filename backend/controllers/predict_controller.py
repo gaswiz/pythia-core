@@ -2,7 +2,10 @@ import joblib
 import numpy as np
 from pathlib import Path
 
-from backend.utils.db import get_db
+try:
+    from backend.utils.db import get_db
+except ModuleNotFoundError:
+    from utils.db import get_db
 
 
 MODELS_DIR = Path(__file__).resolve().parents[2] / "models"
@@ -38,6 +41,5 @@ def predict_campaign(data):
         "ROI_Category": roi_class,
         "Estimated_Clicks": est_clicks
     }
-
 
 
