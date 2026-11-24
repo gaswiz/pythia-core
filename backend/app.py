@@ -8,6 +8,7 @@ without requiring MongoDB to be available at import time.
 from __future__ import annotations
 
 import io
+import logging
 from functools import lru_cache
 from pathlib import Path
 
@@ -24,7 +25,9 @@ try:
         FALLBACK_DATA_PATH,
         FLASK_DEBUG,
         FRONTEND_ORIGINS,
+        HOST,
         LOGISTIC_MODEL_PATH,
+        MAX_UPLOAD_BYTES,
         MODEL_FEATURES,
         POISSON_MODEL_PATH,
         PORT,
@@ -36,7 +39,9 @@ except ModuleNotFoundError:
         FALLBACK_DATA_PATH,
         FLASK_DEBUG,
         FRONTEND_ORIGINS,
+        HOST,
         LOGISTIC_MODEL_PATH,
+        MAX_UPLOAD_BYTES,
         MODEL_FEATURES,
         POISSON_MODEL_PATH,
         PORT,
@@ -45,6 +50,8 @@ except ModuleNotFoundError:
     from utils.db import get_db
 
 app = Flask(__name__)
+app.config["MAX_CONTENT_LENGTH"] = MAX_UPLOAD_BYTES
+logger = logging.getLogger(__name__)
 CORS(app, resources={r"/*": {"origins": FRONTEND_ORIGINS}})
 
 uploaded_background_df: pd.DataFrame | None = None
@@ -192,10 +199,12 @@ def predict():
         return jsonify(response)
     except ValueError as exc:
         return jsonify({"error": str(exc)}), 400
-    except FileNotFoundError as exc:
-        return jsonify({"error": str(exc)}), 500
-    except Exception as exc:
-        return jsonify({"error": str(exc)}), 500
+    except FileNotFoundError:
+        logger.exception("Model file missing")
+        return jsonify({"error": "Model files are not available on the server."}), 500
+    except Exception:
+        logger.exception("Prediction failed")
+        return jsonify({"error": "Internal server error."}), 500
 
 
 @app.get("/recommend")
@@ -226,8 +235,9 @@ def recommend():
             "Estimated_Conversion_Rate": float(best["Conversion_Rate"]),
         }
         return jsonify(recommendation)
-    except Exception as exc:
-        return jsonify({"error": str(exc)}), 500
+    except Exception:
+        logger.exception("Recommendation failed")
+        return jsonify({"error": "Internal server error."}), 500
 
 
 @app.post("/upload")
@@ -266,9 +276,12 @@ def upload():
                 "mongo_persisted": db is not None,
             }
         )
-    except Exception as exc:
-        return jsonify({"error": str(exc)}), 500
+    except (pd.errors.ParserError, pd.errors.EmptyDataError, UnicodeDecodeError):
+        return jsonify({"error": "Uploaded file is not a valid CSV."}), 400
+    except Exception:
+        logger.exception("Upload failed")
+        return jsonify({"error": "Internal server error."}), 500
 
 
 if __name__ == "__main__":
-    app.run(debug=FLASK_DEBUG, host="0.0.0.0", port=PORT)
+    app.run(debug=FLASK_DEBUG, host=HOST, port=PORT)

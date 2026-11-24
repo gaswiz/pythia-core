@@ -8,6 +8,8 @@ MODELS_DIR = REPO_ROOT / "models"
 DATA_DIR = REPO_ROOT / "data"
 
 PORT = int(os.getenv("PORT", "5000"))
+# Bind to loopback by default; set HOST=0.0.0.0 explicitly to expose the API on the network.
+HOST = os.getenv("HOST", "127.0.0.1")
 FLASK_DEBUG = os.getenv("FLASK_DEBUG", "0") == "1"
 
 MONGO_URI = os.getenv("MONGO_URI", "").strip()
@@ -36,3 +38,6 @@ POISSON_MODEL_PATH = MODELS_DIR / "poisson_click_model.pkl"
 FALLBACK_DATA_PATH = DATA_DIR / "marketing_campaign_dataset.csv"
 
 SHAP_BACKGROUND_SAMPLE_SIZE = int(os.getenv("SHAP_BACKGROUND_SAMPLE_SIZE", "100"))
+
+# Maximum accepted request body size (bytes) for uploads. Default: 10 MB.
+MAX_UPLOAD_BYTES = int(os.getenv("MAX_UPLOAD_BYTES", str(10 * 1024 * 1024)))
